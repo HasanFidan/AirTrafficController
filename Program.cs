@@ -14,6 +14,8 @@ namespace AirTowerController
         static readonly object _lock = new object();
         //We can control the generation processes with different i values.
         static int i = 0;
+        const int AIRCRAFT_NUMBER = 40;
+        const int PLANE_NUMBER = 25;
 
         static void Main(string[] args)
         {
@@ -41,7 +43,7 @@ namespace AirTowerController
         {
             Tower t = tower as Tower;
            
-            while (i<40)
+            while (i< AIRCRAFT_NUMBER)
             {
                 int delay = rnd.Next(10, 25);
                 string selected = predicate[rnd.Next(0, 2)];
@@ -58,7 +60,7 @@ namespace AirTowerController
         {
             Tower t = tower as Tower;
 
-            while (i<25)
+            while (i<PLANE_NUMBER)
             {
                 int delay = rnd.Next(5, 20);
                 string selected = predicate[rnd.Next(0, 2)];
