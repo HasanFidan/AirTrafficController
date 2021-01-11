@@ -8,6 +8,9 @@ namespace AirTowerController
     {
         static Queue<AbstractAirCraft> airCrafts = new Queue<AbstractAirCraft>();
         static Thread threadC = null;
+        const string QUEUE_LIMIT = "Queue limit reached";
+        const string QUEUE_EMPTY = "Queue is empty";
+        const short QUEUE_THRESHOLD = 10; 
 
         //Simulation deterministically works until cancelation token is fired up
         public Tower(CancellationToken cts)
@@ -22,9 +25,9 @@ namespace AirTowerController
             lock (airCrafts)
             {
                 //QueueLimit controlled by 10 to optimize the queue.
-                if(airCrafts.Count == 10)
+                if(airCrafts.Count == QUEUE_THRESHOLD)
                 {
-                    Console.WriteLine(Environment.NewLine + "Queue limit reached" + Environment.NewLine);
+                    Console.WriteLine(Environment.NewLine + QUEUE_LIMIT + Environment.NewLine);
                     Monitor.Wait(airCrafts);
                 }
                 //Each new aircraft firstly contact the Tower to make it to register itself.
@@ -54,7 +57,7 @@ namespace AirTowerController
                     //when the queue has not any item, the registration process should be notified about that.
                     if (airCrafts.Count == 0)
                     {
-                        Console.WriteLine(Environment.NewLine + "Queue is empty" + Environment.NewLine);
+                        Console.WriteLine(Environment.NewLine + QUEUE_EMPTY  + Environment.NewLine);
                         Monitor.Pulse(airCrafts);
                         Monitor.Wait(airCrafts);
                     }
